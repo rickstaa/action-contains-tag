@@ -15,7 +15,7 @@ TAG="${INPUT_TAG}"
 if [[ $(git branch --list "${INPUT_REFERENCE}") ]]; then
   input_type="branch"
 else
-  if git cat-file -e "${INPUT_REFERENCE}"^{commit}; then
+  if git cat-file -e "${INPUT_REFERENCE}"^{commit} 2>/dev/null; then
     input_type="commit"
   else
     echo "[action-contains-tag] Please specify a valid branch/commit."
@@ -37,8 +37,8 @@ if [[ $(git tag -l "${INPUT_TAG}") ]]; then
     echo "::set-output value=linked_commit::${tag_commit}"
     echo "::set-output value=retval::${is_tag_commit}"
   else
-    branch_has_tag=test="$(git branch ${INPUT_REFERENCE} --contains ${tag_commit} 2>/dev/null || echo '')"
-    if [[ -z "${branch_has_tag}" ]]; then
+    branch_has_tag="$(git branch ${INPUT_REFERENCE} --contains ${tag_commit} 2>/dev/null || echo '')"
+    if [[ ! -z "${branch_has_tag}" ]]; then
       echo "[action-contains-tag] Branch '${INPUT_REFERENCE}' contains tag ${INPUT_TAG}."
       echo "::set-output value=linked_commit::${tag_commit}"
       echo "::set-output value=retval::true"
