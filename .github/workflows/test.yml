@@ -56,6 +56,7 @@ jobs:
         with:
           reference: "b93f2a857"
           tag: "init"
+          frail: false
       - name: Check if code output is valid
         run: |
           if [[ ${{ steps.contains_tag.outputs.retval }} == 'true' ]]; then
@@ -75,6 +76,7 @@ jobs:
         with:
           reference: "b93f2a857"
           tag: "octocat"
+          frail: false
       - name: Check if code output is valid
         run: |
           if [[ ${{ steps.contains_tag.outputs.retval }} != 'true' ]]; then
