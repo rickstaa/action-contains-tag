@@ -34,22 +34,22 @@ if [[ $(git tag -l "${INPUT_TAG}") ]]; then
     else
       echo "[action-contains-tag] Tag '${INPUT_TAG}' is not linked to commit '${INPUT_REFERENCE}' but to commit '${tag_commit}'."
     fi
-    echo "::set-output value=linked_commit::${tag_commit}"
-    echo "::set-output value=retval::${is_tag_commit}"
+    echo "::set-output name=linked_commit::${tag_commit}"
+    echo "::set-output name=retval::${is_tag_commit}"
   else
     branch_has_tag="$(git branch ${INPUT_REFERENCE} --contains ${tag_commit} 2>/dev/null || echo '')"
     if [[ ! -z "${branch_has_tag}" ]]; then
       echo "[action-contains-tag] Branch '${INPUT_REFERENCE}' contains tag ${INPUT_TAG}."
-      echo "::set-output value=linked_commit::${tag_commit}"
-      echo "::set-output value=retval::true"
+      echo "::set-output name=linked_commit::${tag_commit}"
+      echo "::set-output name=retval::true"
     else
       echo "[action-contains-tag] Branch '${INPUT_REFERENCE}' does not contain tag ${INPUT_TAG}."
-      echo "::set-output value=linked_commit::${tag_commit}"
-      echo "::set-output value=retval::false"
+      echo "::set-output name=linked_commit::${tag_commit}"
+      echo "::set-output name=retval::false"
     fi
   fi
 else
   echo "[action-contains-tag] Tag '${INPUT_TAG}' does not exist on your repository."
-  echo "::set-output value=linked_commit::"
-  echo "::set-output value=retval::false"
+  echo "::set-output name=linked_commit::"
+  echo "::set-output name=retval::false"
 fi
