@@ -3,7 +3,7 @@ set -eu
 
 cd "${GITHUB_WORKSPACE}" || exit
 
-tag="${INPUT_TAG#'tags/ref/'}" # Remove possible tags/ref prefix
+tag="${INPUT_TAG#'refs/tags/'}" # Remove possible refs/tags prefix
 
 # Check if tag exists
 if [[ ! $(git tag -l "${tag}") ]]; then
