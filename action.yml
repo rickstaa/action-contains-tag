@@ -8,6 +8,10 @@ inputs:
   reference:
     description: "Branch or commit for which you want to check the tag existence."
     required: true
+  verbose:
+    description: "Log action information to the console."
+    required: false
+    default: "true"
 outputs:
   retval:
     description: "Boolean specifying whether the reference contained the tag."
