@@ -12,6 +12,10 @@ inputs:
     description: "Log action information to the console."
     required: false
     default: "true"
+  frail:
+    description: "Return exit code of 1 when tag or reference dos not exist."
+    required: False
+    default: "true"
 outputs:
   retval:
     description: "Boolean specifying whether the reference contained the tag."

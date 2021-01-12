@@ -21,6 +21,10 @@ Simple GitHub action that can be used to check if a commit or branch contains a 
 
 **Optional**. Log action information to the console. By default `true`.
 
+### `frail`
+
+**Optional**. Return an exit code of `1` when tag or reference does not exist. By default `true`.
+
 ## Outputs
 
 ### `retval`
@@ -71,7 +75,7 @@ jobs:
 I created this action since I wanted to combine the `tag` and `push` to branch filters. I send a feature request to the GitHub support. Until this feature is released, this action can be used as a temporary workaround. The recipe below ensures that a workflow is only triggered when a tag is pushed to the master branch.
 
 ```yml
-name: Create/update tag
+name: Tag pushed to main branch
 on:
   tags:
     - "v*.*.*"
@@ -86,7 +90,7 @@ jobs:
         id: contains_tag
         with:
           reference: "main"
-          tag: "Latest"
+          tag: "${{ git.ref }}"
       - name: Run step only when tag is pushed to the main branch.
         if: "!steps.contains_tag.outputs.retval"
          run: |
