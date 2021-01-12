@@ -1,4 +1,4 @@
-name: Create/update tag
+name: Test on tag push
 on:
   push:
     tags:
