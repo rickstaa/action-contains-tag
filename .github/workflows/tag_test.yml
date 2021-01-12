@@ -1,7 +1,8 @@
 name: Create/update tag
 on:
-  tags:
-    - "v*.*.*"
+  push:
+    tags:
+      - "v*.*.*"
 jobs:
   create-tag:
     runs-on: ubuntu-latest
