@@ -16,6 +16,6 @@ jobs:
           reference: "main"
           tag: "Latest"
       - name: Run step only when tag is pushed to the main branch.
-        if: ${{ steps.contains_tag.outputs.retval }} != 'true'
+        if: "!steps.contains_tag.outputs.retval"
         run: |
           echo "Tag '${{ steps.contains_tag.outputs.tag }}' was pushed to the '${{ steps.contains_tag.outputs.reference }}' branch."
