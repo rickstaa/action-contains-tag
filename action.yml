@@ -15,8 +15,12 @@ inputs:
 outputs:
   retval:
     description: "Boolean specifying whether the reference contained the tag."
+  tag:
+    description: "The (trimmed) input tag that as used as a input."
   linked_commit:
     description: "The commit that is currently linked to the tag."
+  reference:
+    description: "The reference that was used as a input."
 runs:
   using: "docker"
   image: "Dockerfile"

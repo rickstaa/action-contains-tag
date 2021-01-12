@@ -9,7 +9,7 @@ if [[ -z "${INPUT_TAG}" ]]; then
 fi
 
 # Set up variables.
-TAG="${INPUT_TAG}"
+TAG="${INPUT_TAG#"tags/ref/"}" # Remove possible tags/ref prefix
 
 # Check if input is commit or branch
 if [[ $(git branch --list "${INPUT_REFERENCE}") ]]; then
@@ -63,3 +63,6 @@ else
   echo "::set-output name=linked_commit::"
   echo "::set-output name=retval::false"
 fi
+
+echo "::set-output name=tag::${TAG}"
+echo "::set-output name=tag::${INPUT_REFERENCE}"

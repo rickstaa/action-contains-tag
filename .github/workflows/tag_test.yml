@@ -1,0 +1,20 @@
+name: Create/update tag
+on:
+  tags:
+    - "v*.*.*"
+jobs:
+  create-tag:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: rickstaa/action-contains-tag@v1
+        id: contains_tag
+        with:
+          reference: "main"
+          tag: "Latest"
+      - name: Run step only when tag is pushed to the main branch.
+        if: ${{ steps.contains_tag.outputs.retval }} != 'true'
+        run: |
+          echo "Tag '${{ steps.contains_tag.outputs.tag }}' was pushed to the '${{ steps.contains_tag.outputs.reference }}' branch."
