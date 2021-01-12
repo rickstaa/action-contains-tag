@@ -11,7 +11,7 @@ Simple GitHub action that can be used to check if a commit or branch contains a 
 
 ### `tag`
 
-**Required**. The tag you want to check. Also works with `${{ git.ref }}` if the workflow was triggered on a tag push.
+**Required**. The tag you want to check. Also works with `${{ github.ref }}` if the workflow was triggered on a tag push.
 
 ### `reference`
 
@@ -90,7 +90,7 @@ jobs:
         id: contains_tag
         with:
           reference: "main"
-          tag: "${{ git.ref }}"
+          tag: "${{ github.ref }}"
       - name: Run step only when tag is pushed to the main branch.
         if: "!steps.contains_tag.outputs.retval"
          run: |

@@ -16,6 +16,7 @@ jobs:
         with:
           reference: "main"
           tag: "init"
+          frail: false
       - name: Check if code output is valid
         run: |
           if [[ ${{ steps.contains_tag.outputs.retval }} == 'true' ]]; then
@@ -35,6 +36,7 @@ jobs:
         with:
           reference: "main"
           tag: "octocat"
+          frail: false
       - name: Check if code output is valid
         run: |
           if [[ ${{ steps.contains_tag.outputs.retval }} != 'true' ]]; then
