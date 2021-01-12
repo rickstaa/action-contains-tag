@@ -11,11 +11,21 @@ Simple GitHub action that can be used to check if a commit or branch contains a 
 
 ### `tag`
 
-**Required**. Tag you want to create.
+**Required**. The tag you want to check.
 
-### `commit_sha`
+### `reference`
 
-**Optional**. The commit SHA hash on which you want to push the tag. Uses latest commit by default.
+**Required**. Branch or commit for which you want to check the tag existence.
+
+## Outputs
+
+### `retval`
+
+Boolean specifying whether the reference contained the tag.
+
+### `linked_commit`
+
+The commit that is currently linked to the tag.
 
 ## Example usage
 
@@ -31,6 +41,8 @@ jobs:
       - uses: actions/checkout@v2
       - uses: rickstaa/action-contains-tag@v1
         with:
-          identifier: "main"
+          reference: "main"
           tag: "Latest"
+      - run: |
+        echo ""
 ```

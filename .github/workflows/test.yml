@@ -1,0 +1,75 @@
+name: Github Action Test CI
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+jobs:
+  test-branch-true:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./
+        id: contains_tag
+        with:
+          reference: "main"
+          tag: "init"
+      - name: Check if code output is valid
+        run: |
+          if [[ ${{ steps.contains_tag.outputs.retval }} == 'true' ]]; then
+            echo "Retval is correct."
+          else
+            echo "Retval is incorrect!"
+            exit 1
+          fi
+  test-branch-false:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./
+        id: contains_tag
+        with:
+          reference: "main"
+          tag: "octocat"
+      - name: Check if code output is valid
+        run: |
+          if [[ ${{ steps.contains_tag.outputs.retval }} != 'true' ]]; then
+            echo "Retval is correct."
+          else
+            echo "Retval is incorrect!"
+            exit 1
+          fi
+  test-commit-true:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./
+        id: contains_tag
+        with:
+          reference: "b93f2a857"
+          tag: "init"
+      - name: Check if code output is valid
+        run: |
+          if [[ ${{ steps.contains_tag.outputs.retval }} == 'true' ]]; then
+            echo "Retval is correct."
+          else
+            echo "Retval is incorrect!"
+            exit 1
+          fi
+  test-commit-false:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./
+        id: contains_tag
+        with:
+          reference: "b93f2a857"
+          tag: "octocat"
+      - name: Check if code output is valid
+        run: |
+          if [[ ${{ steps.contains_tag.outputs.retval }} != 'true' ]]; then
+            echo "Retval is correct."
+          else
+            echo "Retval is incorrect!"
+            exit 1
+          fi

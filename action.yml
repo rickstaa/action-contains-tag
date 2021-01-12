@@ -1,0 +1,21 @@
+name: "Contains tag"
+description: "Check if branch of commit contains tag."
+author: "Rick Staa"
+inputs:
+  tag:
+    description: "Tag you want to check."
+    required: true
+  reference:
+    description: "Branch or commit for which you want to check the tag existence."
+    required: true
+outputs:
+  retval:
+    description: "Boolean specifying whether the reference contained the tag."
+  linked_commit:
+    description: "The commit that is currently linked to the tag."
+runs:
+  using: "docker"
+  image: "Dockerfile"
+branding:
+  icon: "tag"
+  color: "blue"
