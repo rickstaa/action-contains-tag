@@ -19,7 +19,7 @@ if [[ ! $(git tag -l "${tag}") ]]; then
 fi
 
 # Check if reference exists
-if [[ "$(git branch --list ${INPUT_REFERENCE})" ]]; then
+if [[ "$(git branch -a | grep -w ${INPUT_REFERENCE} | wc -l)" -ne 0 ]]; then
   input_type="branch"
 else
   if git cat-file -e "${INPUT_REFERENCE}"^{commit} 2>/dev/null; then
