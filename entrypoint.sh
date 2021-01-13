@@ -28,7 +28,7 @@ if [[ "$(git branch -a | grep -Eow $regex | wc -l)" -ne 0 ]]; then
   INPUT_REFERENCE="$(git branch -a | grep -Ewom 1 $regex)" # Replace with full branch name
 else
   if git cat-file -e "${INPUT_REFERENCE}"^{commit} 2>/dev/null &&
-    [ "${INPUT_REFERENCE}" == "refs/tags/*" ]; then
+    [ "${INPUT_REFERENCE}" != "refs/tags/*" ]; then
     input_type="commit"
   else
     echo "[action-contains-tag] Please specify a valid branch/commit."
