@@ -15,7 +15,7 @@ if [[ ! $(git tag -l "${tag}") ]]; then
     echo "[action-contains-tag] Tag '${tag}' does not exist on your repository."
   fi
   echo "::set-output name=tag::${tag}"
-  echo "::set-output name=tag::${INPUT_REFERENCE}"
+  echo "::set-output name=reference::${INPUT_REFERENCE}"
   echo "::set-output name=linked_commit::"
   echo "::set-output name=retval::false"
   [[ "${INPUT_FRAIL}" != 'true' ]] && exit 0 || exit 1
@@ -32,7 +32,7 @@ else
   else
     echo "[action-contains-tag] Please specify a valid branch/commit."
     echo "::set-output name=tag::${tag}"
-    echo "::set-output name=tag::${INPUT_REFERENCE}"
+    echo "::set-output name=reference::${INPUT_REFERENCE}"
     echo "::set-output name=linked_commit::"
     echo "::set-output name=retval::false"
     [[ "${INPUT_FRAIL}" != 'true' ]] && exit 0 || exit 1
@@ -72,4 +72,4 @@ else
 fi
 
 echo "::set-output name=tag::${tag}"
-echo "::set-output name=tag::${INPUT_REFERENCE}"
+echo "::set-output name=reference::${INPUT_REFERENCE}"

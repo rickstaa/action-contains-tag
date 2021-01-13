@@ -1,4 +1,4 @@
-name: Github Action Test CI
+name: Test on tag
 on:
   push:
     tags:
