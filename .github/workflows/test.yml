@@ -122,7 +122,7 @@ jobs:
       - uses: ./
         id: contains_tag
         with:
-          reference: "test/orphan"
+          reference: "test"
           tag: "${{ github.ref }}"
           frail: false
       - name: Check if code output is valid
