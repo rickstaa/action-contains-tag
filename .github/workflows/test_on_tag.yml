@@ -1,10 +1,10 @@
-name: Test on tag push
+name: Github Action Test CI
 on:
   push:
     tags:
       - "v*.*.*"
 jobs:
-  create-tag:
+  test-on-tag-push:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -16,6 +16,10 @@ jobs:
           reference: "main"
           tag: "${{ github.ref }}"
       - name: Run step only when tag is pushed to the main branch.
-        if: "!steps.contains_tag.outputs.retval"
+        if: "steps.contains_tag.outputs.retval"
         run: |
           echo "Tag '${{ steps.contains_tag.outputs.tag }}' was pushed to the '${{ steps.contains_tag.outputs.reference }}' branch."
+      - name: Run step only when tag is not pushed to the main branch.
+        if: "!steps.contains_tag.outputs.retval"
+        run: |
+          echo "Tag '${{ steps.contains_tag.outputs.tag }}' was not pushed to the '${{ steps.contains_tag.outputs.reference }}' branch."
