@@ -24,6 +24,7 @@ fi
 # Check if reference exists
 if [[ "$(git branch -a | grep -w ${INPUT_REFERENCE} | wc -l)" -ne 0 ]]; then
   input_type="branch"
+  INPUT_REFERENCE="$(git branch -a | grep -Ewom 1 '(remotes/.*/)*main$')" # Replace with full branch name
 else
   if git cat-file -e "${INPUT_REFERENCE}"^{commit} 2>/dev/null; then
     input_type="commit"
