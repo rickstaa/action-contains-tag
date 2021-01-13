@@ -101,7 +101,7 @@ jobs:
       - uses: ./
         id: contains_tag
         with:
-          reference: "${{ github.ref }}"
+          reference: "main"
           tag: "${{ github.ref }}"
           frail: false
       - name: Check if code output is valid
