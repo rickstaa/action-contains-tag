@@ -51,7 +51,7 @@ if [[ "${input_type}" == "commit" ]]; then
   echo "::set-output name=linked_commit::${tag_commit}"
   echo "::set-output name=retval::${is_tag_commit}"
 else
-  if [[ "$(git branch -a ${INPUT_REFERENCE} --contains ${tag_commit})" -ne 0 ]]; then
+  if [[ "$(git branch -a ${INPUT_REFERENCE} --contains ${tag_commit} | wc -l)" -ne 0 ]]; then
     if [[ "${INPUT_VERBOSE}" == 'true' ]]; then
       echo "[action-contains-tag] Branch '${INPUT_REFERENCE}' contains tag '${tag}'."
     fi
