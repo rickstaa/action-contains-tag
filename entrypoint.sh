@@ -3,6 +3,7 @@ set -eux
 
 cd "${GITHUB_WORKSPACE}" || exit
 
+echo "Commit that triggered: ${GITHUB_SHA}"
 echo "${INPUT_TAG}"
 tag="${INPUT_TAG#'refs/tags/'}" # Remove possible refs/tags prefix
 
