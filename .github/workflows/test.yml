@@ -8,6 +8,7 @@ on:
   pull_request:
 jobs:
   test-branch-true:
+    if: "!startsWith(github.ref, 'refs/tags/')"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -28,6 +29,7 @@ jobs:
             exit 1
           fi
   test-branch-false:
+    if: "!startsWith(github.ref, 'refs/tags/')"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -48,6 +50,7 @@ jobs:
             exit 1
           fi
   test-commit-true:
+    if: "!startsWith(github.ref, 'refs/tags/')"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -68,6 +71,7 @@ jobs:
             exit 1
           fi
   test-commit-false:
+    if: "!startsWith(github.ref, 'refs/tags/')"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -87,8 +91,8 @@ jobs:
             echo "Retval is incorrect!"
             exit 1
           fi
-  test-on-tag-push:
-    if: "contains(github.ref, 'refs/tags/v')"
+  test-tag-on-branch-true:
+    if: "!startsWith(github.ref, 'refs/tags/')"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -97,9 +101,35 @@ jobs:
       - uses: ./
         id: contains_tag
         with:
-          reference: "main"
+          reference: "${{ github.ref }}"
           tag: "${{ github.ref }}"
-      - name: Run step only when tag is pushed to the main branch.
-        if: "!steps.contains_tag.outputs.retval"
+          frail: false
+      - name: Check if code output is valid
         run: |
-          echo "Tag '${{ steps.contains_tag.outputs.tag }}' was pushed to the '${{ steps.contains_tag.outputs.reference }}' branch."
+          if [[ ${{ steps.contains_tag.outputs.retval }} == 'true' ]]; then
+            echo "Retval is correct."
+          else
+            echo "Retval is incorrect!"
+            exit 1
+          fi
+  test-tag-on-branch-false:
+    if: "!startsWith(github.ref, 'refs/tags/')"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: ./
+        id: contains_tag
+        with:
+          reference: "test/orphan"
+          tag: "${{ github.ref }}"
+          frail: false
+      - name: Check if code output is valid
+        run: |
+          if [[ ${{ steps.contains_tag.outputs.retval }} != 'true' ]]; then
+            echo "Retval is correct."
+          else
+            echo "Retval is incorrect!"
+            exit 1
+          fi
