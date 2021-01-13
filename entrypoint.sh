@@ -3,6 +3,7 @@ set -eux
 
 cd "${GITHUB_WORKSPACE}" || exit
 
+echo "${INPUT_TAG}"
 tag="${INPUT_TAG#'refs/tags/'}" # Remove possible refs/tags prefix
 
 # Check if tag exists
