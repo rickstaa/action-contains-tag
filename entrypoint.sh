@@ -1,5 +1,5 @@
 #!/bin/bash
-set -eux
+set -eu
 
 cd "${GITHUB_WORKSPACE}" || exit
 
@@ -51,16 +51,15 @@ if [[ "${input_type}" == "commit" ]]; then
   echo "::set-output name=linked_commit::${tag_commit}"
   echo "::set-output name=retval::${is_tag_commit}"
 else
-  branch_has_tag="$(git branch ${INPUT_REFERENCE} --contains ${tag_commit} 2>/dev/null || echo '')"
-  if [[ ! -z "${branch_has_tag}" ]]; then
+  if [[ "$(git branch -a ${INPUT_REFERENCE} --contains ${tag_commit})" -ne 0]]; then
     if [[ "${INPUT_VERBOSE}" == 'true' ]]; then
-      echo "[action-contains-tag] Branch '${INPUT_REFERENCE}' contains tag ${tag}."
+      echo "[action-contains-tag] Branch '${INPUT_REFERENCE}' contains tag '${tag}'."
     fi
     echo "::set-output name=linked_commit::${tag_commit}"
     echo "::set-output name=retval::true"
   else
     if [[ "${INPUT_VERBOSE}" == 'true' ]]; then
-      echo "[action-contains-tag] Branch '${INPUT_REFERENCE}' does not contain tag ${tag}."
+      echo "[action-contains-tag] Branch '${INPUT_REFERENCE}' does not contain tag '${tag}'."
     fi
     echo "::set-output name=linked_commit::${tag_commit}"
     echo "::set-output name=retval::false"
