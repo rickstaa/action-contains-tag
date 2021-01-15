@@ -1,5 +1,5 @@
 #!/bin/bash
-set -eu
+set -eux
 
 cd "${GITHUB_WORKSPACE}" || exit
 
