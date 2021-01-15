@@ -89,7 +89,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - uses: rickstaa/action-contains-tag@fix_action_retval
+      - uses: rickstaa/action-contains-tag@v1
         id: contains_tag
         with:
           reference: "main"
