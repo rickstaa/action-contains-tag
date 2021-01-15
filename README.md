@@ -75,26 +75,39 @@ jobs:
 I created this action since I wanted to combine the `tag` and `push` to branch filters. I send a feature request to the GitHub support. Until this feature is released, this action can be used as a temporary workaround. The recipe below ensures that a workflow is only triggered when a tag is pushed to the master branch.
 
 ```yml
-name: Tag pushed to main branch
+name: Github tag test
 on:
-  tags:
-    - "v*.*.*"
+  push:
+    tags:
+      - "v*.*.*"
 jobs:
-  create-tag:
+  on-main-branch-check:
     runs-on: ubuntu-latest
+    outputs:
+      on_main: ${{ steps.contains_tag.outputs.retval }}
     steps:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - uses: rickstaa/action-contains-tag@v1
+      - uses: rickstaa/action-contains-tag@fix_action_retval
         id: contains_tag
         with:
           reference: "main"
           tag: "${{ github.ref }}"
-      - name: Run step only when tag is pushed to the main branch.
-        if: "!steps.contains_tag.outputs.retval"
-         run: |
-          echo "Tag '${{ steps.contains_tag.outputs.tag }}' was pushed to the '${{ steps.contains_tag.outputs.reference }}' branch."
+  tag-on-main-job:
+    runs-on: ubuntu-latest
+    needs: on-main-branch-check
+    if: ${{ needs.on-main-branch-check.outputs.on_main == 'true' }}
+    steps:
+      - run: echo "Tag was pushed to main."
+      - run: echo ${{needs.on-main-branch-check.outputs.on_main}}
+  tag-not-on-main-job:
+    runs-on: ubuntu-latest
+    needs: on-main-branch-check
+    if: ${{ needs.on-main-branch-check.outputs.on_main != 'true' }}
+    steps:
+      - run: echo "Tag was not pushed to main."
+      - run: echo ${{needs.on-main-branch-check.outputs.on_main}}
 ```
 
 ## Limitations & Gotchas
