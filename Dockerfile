@@ -1,6 +1,6 @@
-FROM alpine:3.12
+FROM alpine:3.13
 
-RUN apk --no-cache add git bash~=5.0
+RUN apk --no-cache add git bash~=5.1
 
 RUN rm -rf /var/lib/apt/lists/*
 
