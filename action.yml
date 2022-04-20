@@ -1,4 +1,4 @@
-name: "Contains tag"
+name: "Contains tag Fork"
 description: "Check if branch of commit contains tag."
 author: "Rick Staa Forked by Sebastian Neumann"
 inputs:
