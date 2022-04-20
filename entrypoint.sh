@@ -1,6 +1,9 @@
 #!/bin/bash
 set -eu
 
+git config --global safe.directory "${GITHUB_WORKSPACE}"
+git config --global safe.directory /github/workspace
+
 cd "${GITHUB_WORKSPACE}" || exit
 
 tag="${INPUT_TAG#'refs/tags/'}" # Remove possible refs/tags prefix

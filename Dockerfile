@@ -1,8 +1,12 @@
-FROM alpine:3.15
+FROM alpine:3.15.4
 
-RUN apk --no-cache add git bash~=5.1
+RUN apk --no-cache add git bash
 
 RUN rm -rf /var/lib/apt/lists/*
+
+RUN  apk update
+RUN apk add git
+
 
 COPY entrypoint.sh /entrypoint.sh
 
