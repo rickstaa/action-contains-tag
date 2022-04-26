@@ -1,6 +1,9 @@
 #!/bin/bash
 set -eu
 
+# Apply hotfix for 'fatal: unsafe repository' error (see #9)
+git config --global --add safe.directory "${GITHUB_WORKSPACE}"
+
 cd "${GITHUB_WORKSPACE}" || exit
 
 tag="${INPUT_TAG#'refs/tags/'}" # Remove possible refs/tags prefix

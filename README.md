@@ -54,7 +54,7 @@ jobs:
   create-tag:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - uses: rickstaa/action-contains-tag@v1
@@ -86,7 +86,7 @@ jobs:
     outputs:
       on_main: ${{ steps.contains_tag.outputs.retval }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - uses: rickstaa/action-contains-tag@v1
@@ -112,4 +112,4 @@ jobs:
 
 ## Limitations & Gotchas
 
-When use [Checkout@v2](https://github.com/actions/checkout), only a single commit is fetched by default. You must therefore set the right `fetch_depth` in order to be able to access all the tags.
+When use [Checkout@v3](https://github.com/actions/checkout), only a single commit is fetched by default. You must therefore set the right `fetch_depth` in order to be able to access all the tags.
