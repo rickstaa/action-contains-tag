@@ -113,3 +113,7 @@ jobs:
 ## Limitations & Gotchas
 
 When use [Checkout@v3](https://github.com/actions/checkout), only a single commit is fetched by default. You must therefore set the right `fetch_depth` in order to be able to access all the tags.
+
+## Contributing
+
+Feel free to open an issue if you have ideas on how to make this GitHub action better or if you want to report a bug! All contributions are welcome. :rocket: Please consult the [contribution guideliness](CONTRIBUTING.md) for more information.
