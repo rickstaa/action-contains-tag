@@ -13,10 +13,10 @@ if [[ ! $(git tag -l "${tag}") ]]; then
   if [[ "${INPUT_VERBOSE}" == 'true' ]]; then
     echo "[action-contains-tag] Tag '${tag}' does not exist on your repository."
   fi
-  echo "::set-output name=tag::${tag}"
-  echo "::set-output name=reference::${INPUT_REFERENCE}"
-  echo "::set-output name=linked_commit::"
-  echo "::set-output name=retval::false"
+  echo "tag=${tag}" >> $GITHUB_OUTPUT
+  echo "reference=${INPUT_REFERENCE}" >> $GITHUB_OUTPUT
+  echo "linked_commit=" >> $GITHUB_OUTPUT
+  echo "retval=false" >> $GITHUB_OUTPUT
   [[ "${INPUT_FRAIL}" != 'true' ]] && exit 0 || exit 1
 fi
 
@@ -31,10 +31,10 @@ else
     input_type="commit"
   else
     echo "[action-contains-tag] Please specify a valid branch/commit."
-    echo "::set-output name=tag::${tag}"
-    echo "::set-output name=reference::${INPUT_REFERENCE}"
-    echo "::set-output name=linked_commit::"
-    echo "::set-output name=retval::false"
+    echo "tag=${tag}" >> $GITHUB_OUTPUT
+    echo "reference=${INPUT_REFERENCE}" >> $GITHUB_OUTPUT
+    echo "linked_commit=" >> $GITHUB_OUTPUT
+    echo "retval=false" >> $GITHUB_OUTPUT
     [[ "${INPUT_FRAIL}" != 'true' ]] && exit 0 || exit 1
   fi
 fi
@@ -53,23 +53,23 @@ if [[ "${input_type}" == "commit" ]]; then
       echo "[action-contains-tag] Tag '${tag}' is not linked to commit '${INPUT_REFERENCE}' but to commit '${tag_commit}'."
     fi
   fi
-  echo "::set-output name=linked_commit::${tag_commit}"
-  echo "::set-output name=retval::${is_tag_commit}"
+  echo "linked_commit=${tag_commit}" >> $GITHUB_OUTPUT
+  echo "retval=${is_tag_commit}" >> $GITHUB_OUTPUT
 else
   if [[ "$(git rev-list ${INPUT_REFERENCE} 2>/dev/null | grep -w ${tag_commit} | wc -l)" -ne 0 ]]; then
     if [[ "${INPUT_VERBOSE}" == 'true' ]]; then
       echo "[action-contains-tag] Branch '${INPUT_REFERENCE}' contains tag '${tag}'."
     fi
-    echo "::set-output name=linked_commit::${tag_commit}"
-    echo "::set-output name=retval::true"
+    echo "linked_commit=${tag_commit}" >> $GITHUB_OUTPUT
+    echo "retval=true" >> $GITHUB_OUTPUT
   else
     if [[ "${INPUT_VERBOSE}" == 'true' ]]; then
       echo "[action-contains-tag] Branch '${INPUT_REFERENCE}' does not contain tag '${tag}'."
     fi
-    echo "::set-output name=linked_commit::${tag_commit}"
-    echo "::set-output name=retval::false"
+    echo "linked_commit=${tag_commit}" >> $GITHUB_OUTPUT
+    echo "retval=false" >> $GITHUB_OUTPUT
   fi
 fi
 
-echo "::set-output name=tag::${tag}"
-echo "::set-output name=reference::${INPUT_REFERENCE}"
+echo "tag=${tag}" >> $GITHUB_OUTPUT
+echo "reference=${INPUT_REFERENCE}" >> $GITHUB_OUTPUT
