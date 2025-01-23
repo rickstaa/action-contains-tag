@@ -39,7 +39,7 @@ else
   fi
 fi
 
-# Check if reference contanis tag
+# Check if reference contains tag
 tag_commit="$(git rev-parse tags/${tag}~0)"
 if [[ "${input_type}" == "commit" ]]; then
   regex="${INPUT_REFERENCE}.*"
