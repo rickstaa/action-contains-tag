@@ -1,6 +1,5 @@
 #!/bin/bash
 set -eu
-set -x
 
 # Apply hotfix for 'fatal: unsafe repository' error (see #9)
 git config --global --add safe.directory "${GITHUB_WORKSPACE}"
@@ -23,10 +22,9 @@ fi
 
 # Check if reference exists
 regex="(remotes/.*/)*${INPUT_REFERENCE}$"
-git branch -a --sort=refname
-if [[ "$(git branch -a --sort=refname | grep -Eow $regex | wc -l)" -ne 0 ]]; then
+if [[ "$(git branch -a --sort=refname | grep -v "\->" | grep -Eow $regex | wc -l)" -ne 0 ]]; then
   input_type="branch"
-  INPUT_REFERENCE="$(git branch -a --sort=refname | grep -Ewom 1 $regex)" # Replace with full branch name
+  INPUT_REFERENCE="$(git branch -a --sort=refname | grep -v "\->" | grep -Ewom 1 $regex)" # Replace with full branch name
 else
   if git cat-file -e "${INPUT_REFERENCE}"^{commit} 2>/dev/null &&
     [[ "${INPUT_REFERENCE}" != 'refs/tags/'* ]]; then
