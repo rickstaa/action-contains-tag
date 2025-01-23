@@ -22,9 +22,9 @@ fi
 
 # Check if reference exists
 regex="(remotes/.*/)*${INPUT_REFERENCE}$"
-if [[ "$(git branch -a | grep -Eow $regex | wc -l)" -ne 0 ]]; then
+if [[ "$(git branch -a --sort=refname | grep -v "\->" | grep -Eow $regex | wc -l)" -ne 0 ]]; then
   input_type="branch"
-  INPUT_REFERENCE="$(git branch -a | grep -Ewom 1 $regex)" # Replace with full branch name
+  INPUT_REFERENCE="$(git branch -a --sort=refname | grep -v "\->" | grep -Ewom 1 $regex)" # Replace with full branch name
 else
   if git cat-file -e "${INPUT_REFERENCE}"^{commit} 2>/dev/null &&
     [[ "${INPUT_REFERENCE}" != 'refs/tags/'* ]]; then
